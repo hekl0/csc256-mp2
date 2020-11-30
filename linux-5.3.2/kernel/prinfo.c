@@ -51,12 +51,15 @@ struct prinfo {
 	/* The set of pending signals */
 	unsigned long signal;
 
-       	/* Number of open file descriptors */
+    /* Number of open file descriptors */
 	unsigned long num_open_fds;
 };
 
 
 SYSCALL_DEFINE1(prinfo, struct prinfo *, p) {
-	printk ("CSC256: Hi!\n");
+	printk ("CSC256: Hi %d!\n", 123);
+
+	struct task_struct *p = current;
+	
 	return 0;
 }
