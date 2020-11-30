@@ -1,0 +1,6 @@
+Quit qemu vm:
++ Ctrl + A
++ x
+
+Can't write to stat tmp:
++ manually create file
