@@ -4,3 +4,6 @@ Quit qemu vm:
 
 Can't write to stat tmp:
 + manually create file
+
+Unmount:
++ umount not unmount
