@@ -41,26 +41,29 @@ int main (int argc, char ** argv) {
 	printf ("sys_time offset is %lx\n", __builtin_offsetof (struct prinfo, sys_time));
 
 	struct prinfo *info = malloc(sizeof(struct prinfo));
-	info->pid = getpid();
-	printf("pid %d\n\n", getpid());
-	info->pid = 321;
+    if (argc == 1) {
+        info->pid = getpid();
+        printf("pid %d\n\n", getpid());
+    } else 
+        info->pid = atoi(argv[1]);
 	/* Call our new system call */
 	int ret = syscall (181, info);
 
-	printf("return %d\n", ret);
-	printf("parent_pid %d\n", info->parent_pid);
-	printf("youngest_child_pid %d\n", info->youngest_child_pid);
-	printf("younger_sibling_pid %d\n", info->younger_sibling_pid);
-	printf("older_sibling_pid %d\n", info->older_sibling_pid);
-	printf("start_time %ld\n", info->start_time);
-	printf("user_time %ld\n", info->user_time);
-	printf("sys_time %ld\n", info->sys_time);
-	printf("cutime %ld\n", info->cutime);
-	printf("cstime %ld\n", info->cstime);
-	printf("uid %ld\n", info->uid);
-	printf("comm %s\n", info->comm);
-	printf("signal %ld\n", info->signal);
-	printf("num_open_fds %ld\n", info->num_open_fds);
+    printf("-- syscall return status %d\n", ret);
+    printf("state\t\t\t\t%ld\n", info->state);
+    printf("parent_pid\t\t\t%d\n", info->parent_pid);
+    printf("youngest_child_pid\t\t%d\n", info->youngest_child_pid);
+    printf("younger_sibling_pid\t\t%d\n", info->younger_sibling_pid);
+    printf("older_sibling_pid\t\t%d\n", info->older_sibling_pid);
+    printf("start_time\t\t\t%ld\n", info->start_time);
+    printf("user_time\t\t\t%ld\n", info->user_time);
+    printf("sys_time\t\t\t%ld\n", info->sys_time);
+    printf("cutime\t\t\t\t%ld\n", info->cutime);
+    printf("cstime\t\t\t\t%ld\n", info->cstime);
+    printf("uid\t\t\t\t%ld\n", info->uid);
+    printf("comm\t\t\t\t%s\n", info->comm);
+    printf("signal\t\t\t\t%ld\n", info->signal);
+    printf("num_open_fds\t\t\t%ld\n", info->num_open_fds);
 
 	/* Exit the program */
 	return 0;

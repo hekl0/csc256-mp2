@@ -59,8 +59,8 @@ struct prinfo {
 
 
 SYSCALL_DEFINE1(prinfo, struct prinfo *, info) {
-	printk ("CSC256: Hi %d!\n", 123);
-	printk ("sys_time offset is %lx\n", __builtin_offsetof (struct prinfo, sys_time));
+	// printk ("CSC256: Hi %d!\n", 123);
+	// printk ("sys_time offset is %lx\n", __builtin_offsetof (struct prinfo, sys_time));
 
 	if (info == NULL) {
 		// errno = EINVAL;
@@ -109,7 +109,7 @@ SYSCALL_DEFINE1(prinfo, struct prinfo *, info) {
 					s = list_entry(c, struct task_struct, sibling);
 					info->cutime += s->utime;
 					info->cstime += s->stime;
-					printk("child %d\n", s->pid);
+					// printk("child %d\n", s->pid);
 				}
 			}
 			// Get uid

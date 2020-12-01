@@ -1,8 +1,17 @@
-all: test
+all: test test1 test2 test3
 
 test: test.c
 	gcc -static -o test test.c
 
+test1: test1.c
+	gcc -static -o test1 test1.c
+	
+test2: test2.c
+	gcc -static -o test2 test2.c
+
+test3: test3.c
+	gcc -static -o test3 test3.c
+
 clean:
-	rm -f test
+	rm -f test test1 test2 test3
 
