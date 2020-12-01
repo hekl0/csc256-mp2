@@ -43,7 +43,7 @@ int main (int argc, char ** argv) {
 	struct prinfo *info = malloc(sizeof(struct prinfo));
 	info->pid = getpid();
 	printf("pid %d\n\n", getpid());
-	info->pid = 322;
+	info->pid = 321;
 	/* Call our new system call */
 	int ret = syscall (181, info);
 
@@ -57,6 +57,10 @@ int main (int argc, char ** argv) {
 	printf("sys_time %ld\n", info->sys_time);
 	printf("cutime %ld\n", info->cutime);
 	printf("cstime %ld\n", info->cstime);
+	printf("uid %ld\n", info->uid);
+	printf("comm %s\n", info->comm);
+	printf("signal %ld\n", info->signal);
+	printf("num_open_fds %ld\n", info->num_open_fds);
 
 	/* Exit the program */
 	return 0;
