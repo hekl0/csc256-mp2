@@ -7,3 +7,6 @@ Can't write to stat tmp:
 
 Unmount:
 + umount not unmount
+
+VM doesn't have gcc:
+- Compile code from outside and then send exe file to VM
