@@ -1,9 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <linux/unistd.h>
-#include <sys/syscall.h>
-
 struct prinfo {
     long state; /* current state of process */
     pid_t pid; /* process id (input) */
@@ -40,8 +37,8 @@ struct prinfo {
 
 int main (int argc, char ** argv) {
 	/* Print a friendly message */
-	printf ("Hello from User Space!\n");
-	printf ("sys_time offset is %lx\n", __builtin_offsetof (struct prinfo, sys_time));
+	// printf ("Hello from User Space!\n");
+	// printf ("sys_time offset is %lx\n", __builtin_offsetof (struct prinfo, sys_time));
 
 	struct prinfo *info = malloc(sizeof(struct prinfo));
     if (argc == 1) {
