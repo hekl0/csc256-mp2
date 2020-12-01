@@ -8,6 +8,7 @@
 #include <linux/kernel.h>
 #include <linux/syscalls.h>
 #include <linux/errno.h>
+#include <linux/fdtable.h>
 
 struct prinfo {
 	/* current state of process */
@@ -69,26 +70,29 @@ SYSCALL_DEFINE1(prinfo, struct prinfo *, info) {
 	struct task_struct *p;
 	for_each_process(p) {
 		if (info->pid == p->pid) {
+			int i;
 			// Get state
 			info->state = p->state;
 			// Get parent
 			if (p->real_parent != NULL)
 				info->parent_pid = p->real_parent->pid;
+			else
+				info->parent_pid = -1;
 			// Get youngest child
 			if (!list_empty(&p->children)) {
 				struct task_struct *child = list_first_entry(&p->children, struct task_struct, sibling);
 				info->youngest_child_pid = child->pid;
-			}
+			} else info->youngest_child_pid = -1;
 			// Get younger sibling
 			if (list_entry(p->sibling.prev, struct task_struct, sibling)->pid < p->pid) {
 				struct task_struct *sibling = list_entry(p->sibling.prev, struct task_struct, sibling);
 				info->younger_sibling_pid = sibling->pid;
-			}
+			} else info->younger_sibling_pid = -1; 
 			// Get older sibling
 			if (list_entry(p->sibling.next, struct task_struct, sibling)->pid > p->pid) {
 				struct task_struct *sibling = list_entry(p->sibling.next, struct task_struct, sibling);
 				info->older_sibling_pid = sibling->pid;
-			}
+			} else info->older_sibling_pid = -1;
 			// Get start time
 			info->start_time = p->start_time;
 			// Get user mode time
@@ -108,6 +112,27 @@ SYSCALL_DEFINE1(prinfo, struct prinfo *, info) {
 					printk("child %d\n", s->pid);
 				}
 			}
+			// Get uid
+			if (p->cred != NULL)
+				info->uid = p->cred->uid.val;
+			else
+				info->uid = -1;
+			// Get comm
+			for (i = 0; i < 16; i++)
+				info->comm[i] = p->comm[i];
+			// Get number of pending signals
+			info->signal = 0;
+			if (!list_empty(&p->pending.list)) {
+				struct list_head *s;
+				list_for_each(s, &p->pending.list) {
+					info->signal++;
+				}
+			}
+			// Get number of open fds
+			info->num_open_fds = 0;
+			for (i = 0; i < NR_OPEN_DEFAULT; i++)
+				if (p->files->fd_array[i] != NULL)
+					info->num_open_fds++;
 			return 0;
 		}
 	}
