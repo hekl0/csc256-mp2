@@ -25,7 +25,10 @@ struct prinfo {
  * Function: main()
  *
  * Description:
- *   Entry point for this program.
+ *   Entry point for this program. 
+ *   Expect 1 or 2 args:
+ *      + 1 args: call prinfo for itself
+ *      + 2 args: call prinfo for the process argv[1] 
  *
  * Inputs:
  *   argc - The number of argument with which this program was executed.

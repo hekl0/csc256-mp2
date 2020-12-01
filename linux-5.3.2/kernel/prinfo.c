@@ -57,7 +57,10 @@ struct prinfo {
 	unsigned long num_open_fds;
 };
 
-
+/*
+ * This function will get information related to info->pid
+ * and store it in info
+ */
 SYSCALL_DEFINE1(prinfo, struct prinfo *, info) {
 	// printk ("CSC256: Hi %d!\n", 123);
 	// printk ("sys_time offset is %lx\n", __builtin_offsetof (struct prinfo, sys_time));
@@ -84,13 +87,13 @@ SYSCALL_DEFINE1(prinfo, struct prinfo *, info) {
 				info->youngest_child_pid = child->pid;
 			} else info->youngest_child_pid = -1;
 			// Get younger sibling
-			if (list_entry(p->sibling.prev, struct task_struct, sibling)->pid < p->pid) {
-				struct task_struct *sibling = list_entry(p->sibling.prev, struct task_struct, sibling);
+			if (list_entry(p->sibling.next, struct task_struct, sibling)->pid > p->pid) {
+				struct task_struct *sibling = list_entry(p->sibling.next, struct task_struct, sibling);
 				info->younger_sibling_pid = sibling->pid;
 			} else info->younger_sibling_pid = -1; 
 			// Get older sibling
-			if (list_entry(p->sibling.next, struct task_struct, sibling)->pid > p->pid) {
-				struct task_struct *sibling = list_entry(p->sibling.next, struct task_struct, sibling);
+			if (list_entry(p->sibling.prev, struct task_struct, sibling)->pid < p->pid) {
+				struct task_struct *sibling = list_entry(p->sibling.prev, struct task_struct, sibling);
 				info->older_sibling_pid = sibling->pid;
 			} else info->older_sibling_pid = -1;
 			// Get start time
