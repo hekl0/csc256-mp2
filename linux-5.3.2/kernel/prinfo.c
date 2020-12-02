@@ -53,7 +53,7 @@ struct prinfo {
 	/* The set of pending signals */
 	unsigned long signal;
 
-    /* Number of open file descriptors */
+	/* Number of open file descriptors */
 	unsigned long num_open_fds;
 };
 
