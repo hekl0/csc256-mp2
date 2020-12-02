@@ -51,6 +51,7 @@ int main (int argc, char ** argv) {
 
     printf("-- syscall return status %d\n", ret);
     printf("state\t\t\t\t%ld\n", info->state);
+    printf("pid\t\t\t\t%d\n", info->pid);
     printf("parent_pid\t\t\t%d\n", info->parent_pid);
     printf("youngest_child_pid\t\t%d\n", info->youngest_child_pid);
     printf("younger_sibling_pid\t\t%d\n", info->younger_sibling_pid);

@@ -65,10 +65,12 @@ SYSCALL_DEFINE1(prinfo, struct prinfo *, info) {
 	// printk ("CSC256: Hi %d!\n", 123);
 	// printk ("sys_time offset is %lx\n", __builtin_offsetof (struct prinfo, sys_time));
 
-	if (info == NULL) {
-		// errno = EINVAL;
-		return EINVAL;
-	}
+	// Check info NULL
+	if (info == NULL) 
+		return -EINVAL;
+	// Check invalid memory access
+	if (!access_ok(info, sizeof(struct prinfo)))
+		return -EFAULT;
 
 	struct task_struct *p;
 	for_each_process(p) {
@@ -140,6 +142,5 @@ SYSCALL_DEFINE1(prinfo, struct prinfo *, info) {
 		}
 	}
 	
-	// errno = EINVAL;
-	return EINVAL;
+	return -EINVAL;
 }

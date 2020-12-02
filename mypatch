@@ -28,7 +28,7 @@ index 000000000..04e01453c
 +#endif
 \ No newline at end of file
 diff --git a/linux-5.3.2/kernel/prinfo.c b/linux-5.3.2/kernel/prinfo.c
-index 8413e961b..7a28369f5 100644
+index 8413e961b..0d8f0b539 100644
 --- a/linux-5.3.2/kernel/prinfo.c
 +++ b/linux-5.3.2/kernel/prinfo.c
 @@ -7,6 +7,8 @@
@@ -40,7 +40,7 @@ index 8413e961b..7a28369f5 100644
  
  struct prinfo {
  	/* current state of process */
-@@ -51,12 +53,93 @@ struct prinfo {
+@@ -51,12 +53,94 @@ struct prinfo {
  	/* The set of pending signals */
  	unsigned long signal;
  
@@ -61,10 +61,12 @@ index 8413e961b..7a28369f5 100644
 +	// printk ("CSC256: Hi %d!\n", 123);
 +	// printk ("sys_time offset is %lx\n", __builtin_offsetof (struct prinfo, sys_time));
 +
-+	if (info == NULL) {
-+		// errno = EINVAL;
-+		return EINVAL;
-+	}
++	// Check info NULL
++	if (info == NULL) 
++		return -EINVAL;
++	// Check invalid memory access
++	if (!access_ok(info, sizeof(struct prinfo)))
++		return -EFAULT;
 +
 +	struct task_struct *p;
 +	for_each_process(p) {
@@ -136,6 +138,5 @@ index 8413e961b..7a28369f5 100644
 +		}
 +	}
 +	
-+	// errno = EINVAL;
-+	return EINVAL;
++	return -EINVAL;
  }

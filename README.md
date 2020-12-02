@@ -27,6 +27,12 @@ Unmount:
 VM doesn't have gcc:
 - Compile code from outside and then send exe file to VM
 
+Set errno:
+- Return -Error Code
+
+Check invalid memory
+- Use access_ok(add, sz)
+
 # Linux Source Code for CSC 256/456
 
 This repository contains the Linux source code for CSC 256/456.
